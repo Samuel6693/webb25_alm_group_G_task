@@ -1,6 +1,6 @@
+import { beforeAll, afterAll, afterEach } from "vitest";
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
-const { beforeAll, afterAll, afterEach } = require("vitest");
 
 let mongoServer;
 
