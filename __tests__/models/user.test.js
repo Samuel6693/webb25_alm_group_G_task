@@ -1,6 +1,6 @@
-require("../test-setup");
-const { describe, it, expect } = require("vitest");
-const User = require("../../src/models/User");
+import { describe, it, expect } from "vitest";
+import "../test-setup"; // Ensure this is imported to set up the in-memory MongoDB environment
+import User from "../../src/models/User"; // Import the User model to test
 
 describe("User Model", () => {
   it("should create a user", async () => {
