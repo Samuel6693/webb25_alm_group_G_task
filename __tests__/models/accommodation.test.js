@@ -4,57 +4,61 @@ import User from "../../src/models/User.js";
 import Accommodation from "../../src/models/Accommodation.js";
 
 describe("Accommodation Model", () => {
-    it("should create an accommodation with all required fields", async () => {
-        const user = await User.create({
-            username: "testuser",
-            email: "test@test.com",
-        });
-
-        const accommodation = await Accommodation.create({
-            address: "Test Street 1",
-            city: "Stockholm",
-            country: "Sweden",
-            postalCode: "12345",
-            rent: 9000,
-            rooms: 2,
-            userId: user._id,
-        });
-
-        expect(accommodation).toBeDefined();
-        expect(accommodation.address).toBe("Test Street 1");
-        expect(accommodation.city).toBe("Stockholm");
-        expect(accommodation.country).toBe("Sweden");
-        expect(accommodation.postalCode).toBe("12345");
-        expect(accommodation.rent).toBe(9000);
-        expect(accommodation.rooms).toBe(2);
-        expect(accommodation.userId.toString()).toBe(user._id.toString());
+  it("should create an accommodation with all required fields", async () => {
+    const user = await User.create({
+      username: "testuser",
+      email: "test@test.com",
+      profileImage: "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg",
     });
 
-    it("should require address, city, country, postalCode, rent, rooms and userId", async () => {
-        await expect(Accommodation.create({})).rejects.toThrow();
+    const accommodation = await Accommodation.create({
+      address: "Test Street 1",
+      city: "Stockholm",
+      country: "Sweden",
+      postalCode: "12345",
+      rent: 9000,
+      rooms: 2,
+      userId: user._id,
     });
 
-    it("should reference a user through userId", async () => {
-        const user = await User.create({
-            username: "owneruser",
-            email: "owner@test.com",
-        });
+    expect(accommodation).toBeDefined();
+    expect(accommodation.address).toBe("Test Street 1");
+    expect(accommodation.city).toBe("Stockholm");
+    expect(accommodation.country).toBe("Sweden");
+    expect(accommodation.postalCode).toBe("12345");
+    expect(accommodation.rent).toBe(9000);
+    expect(accommodation.rooms).toBe(2);
+    expect(accommodation.userId.toString()).toBe(user._id.toString());
+  });
 
-        const accommodation = await Accommodation.create({
-            address: "Owner Street 5",
-            city: "Göteborg",
-            country: "Sweden",
-            postalCode: "54321",
-            rent: 7500,
-            rooms: 1,
-            userId: user._id,
-        });
+  it("should require address, city, country, postalCode, rent, rooms and userId", async () => {
+    await expect(Accommodation.create({})).rejects.toThrow();
+  });
 
-        const populatedAccommodation = await Accommodation.findById(
-            accommodation._id
-        ).populate("userId");
-
-        expect(populatedAccommodation.userId.username).toBe("owneruser");
-        expect(populatedAccommodation.userId.email).toBe("owner@test.com");
+  it("should reference a user through userId", async () => {
+    const user = await User.create({
+      username: "owneruser",
+      email: "owner@test.com",
+      profileImage: "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg",
     });
+
+    const accommodation = await Accommodation.create({
+      address: "Owner Street 5",
+      city: "GÃ¶teborg",
+      country: "Sweden",
+      postalCode: "54321",
+      rent: 7500,
+      rooms: 1,
+      userId: user._id,
+    });
+
+    const populatedAccommodation = await Accommodation.findById(
+      accommodation._id
+    ).populate("userId");
+
+    expect(populatedAccommodation.userId.username).toBe("owneruser");
+    expect(populatedAccommodation.userId.email).toBe("owner@test.com");
+    expect(populatedAccommodation.userId.profileImage).toBe("https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg");
+  });
 });
+
