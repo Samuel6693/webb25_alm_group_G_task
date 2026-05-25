@@ -1,6 +1,6 @@
-const express = require("express");
-const connectDB = require("./config/database");
-const UserRouter = require("./routes/User");
+import express from "express";
+import connectDB from "./config/database.js";
+import UserRouter from "./routes/User.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,4 +15,4 @@ connectDB().then(() => {
   });
 });
 
-module.exports = app;
+export default app;
