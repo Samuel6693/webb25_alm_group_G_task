@@ -7,6 +7,9 @@ let mongoServer;
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   await mongoose.connect(mongoServer.getUri());
+
+  // Makes sure unique indexes like username/email exist before tests run
+  await mongoose.connection.syncIndexes();
 });
 
 afterEach(async () => {
